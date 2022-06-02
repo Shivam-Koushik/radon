@@ -1,5 +1,7 @@
 const express = require('express');
-const externalModule = require('./logger')
+const externalModule = require('../logger/logger')
+
+const welcomeFunction = require('../logger/logger')
 
 const router = express.Router();
 
@@ -24,6 +26,17 @@ router.get('/test-me3', function (req, res) {
 
 router.get('/test-me4', function (req, res) {
     res.send('My last api!')
+});
+
+router.get('/test-me5', function (req, res) {
+    welcomeFunction.welcome()
+    welcomeFunction.printDate()
+    welcomeFunction.printMonth()
+    welcomeFunction.Trim()
+    welcomeFunction.getBatchInfo()
+    welcomeFunction.toLowerCase()
+    welcomeFunction.toUpperCase()
+    res.send('It is my api')
 });
 
 module.exports = router;
