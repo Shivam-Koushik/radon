@@ -23,9 +23,14 @@ const getAuthor = async function (req, res) {
 }
 const getAllAuthor = async function (req, res) {
     let arr1 = await BookModel.find({ price: { $gte: 50, $lte: 100 } })
-    let arr2 = arr1.map((item) => { UserModel.find({ author_id: item.author_id }).select({ author_name: 1, _id: 0 }) })
-    res.send({ arr2 })
-    console.log(arr2)
+    let arr2 = arr1.map((item)=>item.author_id)
+    let arr3=[];
+    for(let i=0; i<arr2.length; i++){
+        let arr4 = arr2[i]
+        let arr5 = await UserModel.find({ author_id:arr4}).select({ author_name: 1, _id: 0 })
+        arr3.push(arr5)
+}
+    res.send({...arr3 })
 }
 
 

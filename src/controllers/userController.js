@@ -12,7 +12,7 @@ const getUsersData= async function (req, res) {
     res.send({msg: allUsers})
 }
 const getChetanBhagat= async function (req, res) {
-    // let body = req.body
+    let body = req.body
     let UserId = await UserModel.find({author_name:"Chetan Bhagat"}).select("author_id")
     console.log(UserId);
     let list = await BookModel.find({author_id:UserId[0].author_id})
