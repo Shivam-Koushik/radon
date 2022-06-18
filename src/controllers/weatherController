@@ -1,0 +1,50 @@
+let axios = require("axios")
+
+let getWeather = async function (req, res) {
+    try {
+        let q = req.query.q
+        let appid = req.query.appid
+        var options = {
+            method: "get",
+            url: `http://api.openweathermap.org/data/2.5/weather?q=${q}&appid=${appid}`
+
+        }
+        let result = await axios(options)
+        res.status(200).send({ temp: result.data.main.temp })
+    }
+    catch (err) {
+
+        console.log(err)
+        res.status(500).send({ msg: err.message })
+    }
+}
+
+
+
+let sortByTemperature = async function (req, res) {
+    try {
+        const arr = ["Bengaluru", "Mumbai", "Delhi", "Kolkata", "Chennai", "London", "Moscow"]
+        let cityArray = []
+        for (let i = 0; i < arr.length; i++) {
+            let appid = req.query.appid
+            var options = {
+                method: "get",
+                url: `http://api.openweathermap.org/data/2.5/weather?q=${arr[i]}&appid=${appid}`
+            }
+            let result = await axios(options)
+            let obj = { city: arr[i], temp: result.data.main.temp }
+            cityArray.push(obj)
+        }
+        cityArray.sort((a, b) => a.temp - b.temp)
+        res.status(200).send({ temp: cityArray })
+    }
+    catch (err) {
+
+        console.log(err)
+        res.status(500).send({ msg: err.message })
+    }
+}
+
+
+module.exports.getWeather = getWeather
+module.exports.sortByTemperature = sortByTemperature 
